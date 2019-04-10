@@ -1,0 +1,250 @@
+********************
+INTRODUCCIÓN A REACT
+********************
+
+IMPORTANTE: Se requieren conocimientos mínimos de HTML, CSS y JS, sobre todo de JS.
+Además se emplea nomenclatura camelCase para la definición e importación de Componentes. Explicados más abajo
+
+Recomiendo usar el IDE Atom, pues tiene multitud de plugins para React y facilidades para usar Git y GitHub
+
+================================
+1. ¿Qué es React.js?
+- Librería de JavaScript
+- Objetivo --> crear SPAs (Single Page Application).
+- Orientado a la lógica de negocio.
+================================
+
+2. Características de React
+- Orientado a la creación de Interfaces de Usuario.
+- Facilita la creación de UIs, pues trabaja con Componentes.
+- Agiliza la carga de la página, ya que "renderiza" todos los Componentes de una sola vez.
+- Solo tiene que gestionar el tratamiento de datos.
+- Mediante los Componentes (clases) genera los elementos de la página atómicamente, para construir luego toda la macroestructura.
+- Emplea nomenclatura JSX. Código HTML en JS que React es capaz de interpretar y "renderizar".
+- Trabaja con Virtual Dom, copia en memoria del DOM para agilizar la web.
+
+================================
+3. Componentes
+- Clases JS que heredan de React la API necesaria para su creación.
+- Codigo rehusable. Cada componente puede tener sus propias características, a pesar de ser una misma clase.
+- Posibilidad de crear tags propios con CamelCase <Icono/> <Mapa/>, HTML emplea lowercase <div></div>.
+================================
+
+4. Instalación React
+- Necesario Node.js para descargar el paquete de creación de apps de React create-react-app.
+
+Instalación en Windows:
+- Descargar Node.js --> https://nodejs.org/es/
+- Instalacion del paquete
+
+npm install -g create-react-app
+
+- Nos posicionamos con el comando cd en la carpeta donde se va a crear la app y ejecutamos
+
+create-react-app nombreApp.
+
+También se puede instalar y crear a la vez desde la versión 5.2 de npm, usando el siguiente comando:
+
+npx create-react-app nombreApp
+
+- Para desplegar la app, sobre la carpeta de instalacion, ejecutar npm start.
+
+
+
+Instalación en Ubuntu:
+- Instalacion de Node
+
+sudo apt-get install nodejs
+
+- Instalar npm (gestor de paquetes) si no lo estuviese ya
+
+sudo apt-get install npm
+
+- Instalar el módulo de creación de apps de React
+sudo npm install -g create-react-app
+
+Igual que en Windows, se puede instalar y crear a la vez desde la versión 5.2 de npm, usando el siguiente comando:
+
+npx create-react-app nombreApp
+================================
+
+5. Empecemos
+Al instalar react, se creará un arbol de carpetas. Las que nos importan son src y public. Voy a nombrar los relevantes, por el momento.
+En src:
+- Se encuentra index.js, que indica el elemento HTML contenedor de la app. Viene establecido un div con la clase 'app'
+predefinido. Se accede por el DOM como 'root'.
+- App.js --> Es el script donde se importarán todos los Componentes que creemos, pues se encarga de "renderizarlos".
+Para importar un Componente (clase JS de React)
+
+import Nombrecomponente from 'ruta/Fichero.js';
+
+Una vez importado el Componente, se usa etiquetándolo como si fuese una etiqueta XML de autocierre y se inserta dentro de la
+etiqueta contenedora de la app; un div de forma predeterminada. Se verá algo así. El código se explica más adelante
+
+import React, { Component } from 'react';
+import Componente from './Componente.js';
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Componente />
+      </div>
+    );
+  }
+}
+
+- index.css --> Contiene los estilos generales de la página.
+En public:
+- index.html --> es el archivo HTML que contiene la aplicación y donde se importarán los CSS y JS externos.
+Contiene un div con la clase root, que como ya he mencionado antes, es el contendor por defecto de la app.
+
+Aunque los Componentes se pueden crear en la propia carpeta src, es buena práctica almacenarlos en una carpeta dentro de src
+llamada Components. Así la ruta de acceso al importarlos cambiaría a:
+
+import Componente from './Components/Componente.js';
+
+================================
+
+6. Métodos principales
+React interpreta JS a la vez que HTML. Quiere decir que es capaz de procesar código HTML dentro de las clases y funciones de JS.
+A esto se le conoce como nomenclatura JSX.
+
+El método principal de todo componente es render(). Este método se encarga de "renderizar" el código HTML y JS. Dentro de este
+método habrá un return(), que devolverá la etiqueta a procesar combinada con JS. 
+
+DIGO ETIQUETA, porque React SÓLO PUEDE RENDERIZAR 1 ETIQUETA A LA VEZ. Sin embargo, ese etiqueta "padre" puede contener etiquetas
+"hijas" que también podrán renderizarse, ya que estarán contenidas en la etiqueta a renderizar.
+
+Para poder utilizar React, lo primero es importar su API:
+
+import React, { Component } from 'react'; // Necesario en la creación de cada nuevo Componente
+Es equivalente a --> import React from 'react'; // La forma de arriba es nomenclatura ECMA6
+
+A la hora de crear una nueva clase que servirá de Componente. El siguiente ejemplo crea un Componente y lo exporta.
+
+// Este fichero se llama Componente.js
+import React, { Component } from 'react';
+
+class Componente extends Component {
+  render() {
+    return (
+    // Los nombres de clases pasan a ser className, en vez de class. Nomenclatura camelCase
+      <div className="Comp1">
+        <h1>Hola, este es mi primer componente de React</h1>
+      </div>
+    );
+  }
+}
+
+export default Componente; //Para poder usar un Componente, hay que exportarlo. Luego lo usaremos en la clase principal App
+
+// Este es el fichero App.js
+
+import React, { Component } from 'react';
+import Componente from './Componente.js';
+
+// Al importar nuestra clase Componente, se visualizará Hola
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Componente />
+      </div>
+    );
+  }
+}
+
+exports default App;
+
+Al usar nomenclatura JSX, se puede combinar el uso de JS con HTML. Para ello se usan las {}. Aquí irá nuestro código JS.
+
+// Combinamos JS con HTML en el evento onChange
+class FormBasico extends Component {
+  render() {
+    return (
+      <div>
+          <label htmlFor="correo">Correo electrónico:</label>
+          <input
+          type="email"
+          name="correo"
+          id="correo"
+          onChange={this.onChange.bind(this)}
+          placeholder="Correo electónico"
+          title="Formato: ejemplo@ejemplo.es"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          required/>
+        </div>
+    )
+  }
+}
+
+Sin embargo, ahora te estarás preguntando: ¿Pero en qué se diferencian los componentes de React de una Clase normal de JS, a parte
+de en su uso de JSX? La respues es que cada Componente podrá tener "propiedades" diferentes en cada llamada.
+
+Vamos a cambiar nuestro componente:
+
+// Este fichero se llama Componente.js
+import React, { Component } from 'react';
+
+// Hemos cambiado el contnenido del H1. Ahora contiene un saludo concatenado a un código JS.
+class Componente extends Component {
+  render() {
+    return (
+    // Los nombres de clases pasan a ser className, en vez de class. Nomenclatura camelCase
+      <div className="Comp1">
+        <h1>Hola, {this.props.nombre}</h1>
+      </div>
+    );
+  }
+}
+
+export default Componente;
+
+¿Qué ha cambiado? Ahora estamos concatenando HTML con JS.
+En React existen lo que se conocen como "propiedades" (props en inglés y como se referencia a ellas). Estas props contienen,
+como bien indica su nombre, propiedades del elemento. En este caso estamos indicando lo siguiente:
+
+"React, quiero que este componente que contiene una propiedad llamada nombre la concatenes con el contenido del H1".
+
+Ahora bien, hagamos un ligero cambio al componente principal App:
+
+import React, { Component } from 'react';
+import Componente from './Componente.js';
+
+// Ahora nuestro componente tiene una propiedad llamada nombre, cuyo valor es Jaimito.
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Componente nombre="Jaimito"/>
+      </div>
+    );
+  }
+}
+
+exports default App;
+
+Ahora se mostrará "Hola, Jaimito", pues Componente renderiza el contenido del H1 junto a la propiedad del Componente.
+
+Con esto conseguimos que cada componente pueda comportarse de forma distinta, a pesar de ser en esencia el mismo Componente.
+
+Si añadiésemos otra etiqueta <Componente /> y en nombre puesiéramos María, se visualizaría el anterior y el nuevo. Es decir,
+Hola, Jaimito Hola, María
+
+import React, { Component } from 'react';
+import Componente from './Componente.js';
+
+// Ahora nuestro componente tiene una propiedad llamada nombre, cuyo valor es Jaimito.
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Componente nombre="Jaimito"/>
+        <Componente nombre="María"/>
+      </div>
+    );
+  }
+}
+
+exports default App;
